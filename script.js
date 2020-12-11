@@ -1,79 +1,60 @@
-/*===== MENU SHOW =====*/ 
-//Here this code makes the hamburger  display and disappear when clicked on mobile mode
-const showMenu = (toggleId, navId) =>{
-    const toggle = document.getElementById(toggleId),
-    nav = document.getElementById(navId)
+//select html elements to validate form 
+const form = document.querySelector('.right-column form');
+const inputs = document.querySelectorAll('.right-column form input');
+const button = document.querySelector('.formbtn');
+ 
 
-    if(toggle && nav){
-        toggle.addEventListener('click', ()=>{
-            nav.classList.toggle('show')
-        })
-    }
-}
-showMenu('bar-toggle','bar-menu')
-
-/*===== REMOVE MENU MOBILE =====*/
-const navLink = document.querySelectorAll('.bar__link')
-
-function linkAction(){
-    const navMenu = document.getElementById('bar-menu')
-    navMenu.classList.remove('show')
-}
-navLink.forEach(n => n.addEventListener('click', linkAction))
-
-/*===== SCROLL SECTIONS ACTIVE LINK =====*/
-const sections = document.querySelectorAll('section[id]')
-
-window.addEventListener('scroll', scrollActive)
-
-function scrollActive(){
-    const scrollY = window.pageYOffset
-
-    sections.forEach(current =>{
-        const sectionHeight = current.offsetHeight
-        const sectionTop = current.offsetTop - 50;
-        sectionId = current.getAttribute('id')
-
-        if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight){
-            document.querySelector('.bar__menu a[href*=' + sectionId + ']').classList.add('active')
-        }else{
-            document.querySelector('.bar__menu a[href*=' + sectionId + ']').classList.remove('active')
+//manipulating the form
+form.addEventListener('submit', function (e) {        
+    e.preventDefault();            
+    inputs.forEach((input) => {          
+        if (!input.value) {               
+            input.parentElement.classList.add('error');
         }
-    })
+        else {
+            input.parentElement.classList.remove('error');
+        }
+        if (input.type == 'email') {
+            if (validateEmail(input.value)) {
+                input.parentElement.classList.remove('error');
+            }
+            else {
+                input.parentElement.classList.add('error');
+            }
+        }
+        
+    })    
+
+});
+function validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
 }
 
-/*===== SCROLL REVEAL ANIMATION =====*/
-const sr = ScrollReveal({
-    origin: 'top',
-    distance: '80px',
-    duration: 1000,
-    reset: true
-})
 
-/*SCROLL HOME*/
-sr.reveal('.h-one', {})
-sr.reveal('.home__scroll', {delay: 200})
-// sr.reveal('.home__img', {origin:'right', delay: 400})
 
-/*SCROLL ABOUT*/
-sr.reveal('.about__img', {delay: 400})
-sr.reveal('.about__subtitle', {delay: 300})
-sr.reveal('.about__profession', {delay: 200})
-sr.reveal('.about__text', {delay: 100})
-sr.reveal('.about__social-icon', {delay: 300, interval: 100})
 
-/*SCROLL SKILLS*/
-sr.reveal('.skills__subtitle', {})
-sr.reveal('.skills__name', {distance: '20px', delay: 50, interval: 100})
-sr.reveal('.skills__img', {delay: 200})
 
-/*SCROLL PORTFOLIO*/
-sr.reveal('.portfolio__img', {interval: 200})
 
-/*SCROLL CONTACT*/
-sr.reveal('.contact__subtitle', {})
-sr.reveal('.contact__text', {interval: 200})
-sr.reveal('.contact__input', {delay: 400})
-sr.reveal('.contact__button', {delay: 600})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
